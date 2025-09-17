@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GreetTV — Time-based Messages</title>
+  <!-- ربط ملف CSS خارجي -->
+  <link rel="stylesheet" href="public/style.css">
+</head>
+<body>
+  <div class="wrap card">
+    <!-- اللوغو فوق على اليسار -->
+    <img class="logo" src="public/wiring.jpeg" alt="Mediterranean Electric Wiring Logo" />
+
+    <div class="greeting" id="greetingBox">
+      <h1 id="greetingText">...</h1>
+      <p id="timeText">--:--</p>
+    </div>
+
+    <div class="controls">
+      <label class="small">Write a message:
+        <input id="customMsg" type="text" placeholder="Type your custom message" />
+      </label>
+
+      <label class="small">Select period:
+        <select id="periodSelect">
+          <option value="morning">Morning (5:00 - 11:59)</option>
+          <option value="afternoon">Afternoon (12:00 - 16:59)</option>
+          <option value="evening">Evening (17:00 - 21:59)</option>
+          <option value="night">Night (22:00 - 4:59)</option>
+          <option value="all">Always (overrides all greetings)</option>
+        </select>
+      </label>
+
+      <button id="saveBtn">Save</button>
+      <button id="showBtn">Show Now</button>
+      <button id="resetBtn">Clear Saved Greetings</button>
+
+      <div style="flex:1"></div>
+
+      <div class="small hint">
+        Messages are stored locally on your device (localStorage). You can change them anytime.
+      </div>
+    </div>
+  </div>
+
+  <!-- ربط ملف JS خارجي -->
+  <script src="script.js"></script>
+</body>
+</html>
