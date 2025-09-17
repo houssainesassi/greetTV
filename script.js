@@ -13,43 +13,57 @@ const saveBtn = document.getElementById('saveBtn');
 const showBtn = document.getElementById('showBtn');
 const resetBtn = document.getElementById('resetBtn');
 
+// Load stored custom messages or default
 function loadStored() {
   const stored = JSON.parse(localStorage.getItem('greet_custom') || '{}');
   return Object.assign({}, defaultMsgs, stored);
 }
 
+// Save custom messages to localStorage
 function saveStored(obj) {
   localStorage.setItem('greet_custom', JSON.stringify(obj));
 }
 
+// Determine current time period
 function getCurrentPeriod() {
-  const d = new Date();
-  const h = d.getHours();
+  const h = new Date().getHours();
   if (h >= 5 && h <= 11) return 'morning';
   if (h >= 12 && h <= 16) return 'afternoon';
   if (h >= 17 && h <= 21) return 'evening';
   return 'night';
 }
 
+// Format time as HH:MM
 function formatTime(date) {
   const hh = String(date.getHours()).padStart(2, '0');
   const mm = String(date.getMinutes()).padStart(2, '0');
   return hh + ':' + mm;
 }
 
+// Render greeting on screen
 function renderGreeting(forcePeriod) {
   const stored = loadStored();
-  const period = forcePeriod || getCurrentPeriod();
+  let period;
+
+  if (forcePeriod === 'all') {
+    period = getCurrentPeriod(); // show current period message if "all"
+  } else {
+    period = forcePeriod || getCurrentPeriod();
+  }
+
   const msg = stored[period] || defaultMsgs[period];
   greetingText.textContent = msg;
   timeText.textContent = 'Time: ' + formatTime(new Date());
 }
 
+// Save button click
 saveBtn.addEventListener('click', () => {
   const txt = input.value.trim();
   const p = select.value;
-  if (!txt) return; // ignore if empty
+  if (!txt) return; // ignore empty input
+
   const stored = JSON.parse(localStorage.getItem('greet_custom') || '{}');
+
   if (p === 'all') {
     stored.morning = txt;
     stored.afternoon = txt;
@@ -58,25 +72,33 @@ saveBtn.addEventListener('click', () => {
   } else {
     stored[p] = txt;
   }
+
   saveStored(stored);
   input.value = '';
-  renderGreeting();
+
+  // Force update on screen
+  renderGreeting(p === 'all' ? 'all' : p);
 });
 
+// Show button click
 showBtn.addEventListener('click', () => {
   const p = select.value;
-  // if "all" → just use current time period
-  renderGreeting(p === "all" ? getCurrentPeriod() : p);
+  renderGreeting(p === 'all' ? 'all' : p);
 });
 
+// Reset button click
 resetBtn.addEventListener('click', () => {
   localStorage.removeItem('greet_custom');
   renderGreeting();
 });
 
+// Initial render
 renderGreeting();
+
+// Auto-refresh every 20 seconds
 setInterval(renderGreeting, 20 * 1000);
 
+// Enter key behavior
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     if (document.activeElement === input) {

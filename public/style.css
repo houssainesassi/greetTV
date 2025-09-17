@@ -24,7 +24,7 @@ body {
   max-width: 1280px;
   padding: 28px;
   box-sizing: border-box;
-  position: relative; /* باش نثبت اللوغو */
+  position: relative; /* logo positioning */
 }
 
 .logo {
@@ -43,27 +43,40 @@ body {
 }
 
 .greeting {
+  position: relative;  /* needed for absolute positioning of children */
   display: flex;
+  flex-direction: column;
+  justify-content: center;   /* main greeting centered */
   align-items: center;
-  justify-content: center;
+  text-align: right;
+  direction: rtl;
   height: 360px;
   border-radius: 12px;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.12));
-  flex-direction: column;
+  background: linear-gradient(120deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+  overflow: hidden;
 }
+
+
 
 .greeting h1 {
   font-size: 64px;
   margin: 0 0 6px 0;
   line-height: 1;
   letter-spacing: 1px;
+  display: inline-block;
+  white-space: nowrap;       /* prevent wrapping */
+  animation: slideRTL 15s linear infinite;
 }
 
 .greeting p {
+  position: absolute;
+  bottom: 12px;   /* distance from bottom */
+  right: 16px;    /* distance from right edge */
   margin: 0;
   font-size: 20px;
   opacity: 0.9;
 }
+
 
 .controls {
   display: flex;
@@ -84,6 +97,7 @@ input[type=text], select {
   background: transparent;
   color: var(--text);
   min-width: 240px;
+  text-align: right;         /* input RTL */
 }
 
 button {
@@ -124,4 +138,10 @@ button {
 }
 
 /* hide the "Show Now" button */
-#showBtn { display: none !important;
+#showBtn { display: none !important; }
+
+/* Sliding animation for greeting */
+@keyframes slideRTL {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
