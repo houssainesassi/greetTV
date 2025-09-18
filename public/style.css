@@ -21,8 +21,8 @@ body {
 
 .wrap {
   width: 100%;
-  max-width: 700px;
-  padding: 40px;
+  max-width: 1280px; /* نحتفظ بأكبر حجم */
+  padding: 40px; /* نختار أكبر قيمة من الاثنين */
   box-sizing: border-box;
   position: relative;
 }
@@ -31,12 +31,12 @@ body {
   position: absolute;
   top: 20px;
   left: 20px;
-  max-width: 140px;
+  max-width: 180px; /* نحتفظ بأكبر قيمة */
   border-radius: 12px;
 }
 
 .page-title {
-  font-size: 36px;
+  font-size: 42px; /* نختار حجم مناسب */
   text-align: center;
   margin-bottom: 30px;
   letter-spacing: 1px;
@@ -51,26 +51,58 @@ body {
   box-shadow: 0 12px 40px rgba(2,6,23,0.7);
 }
 
-.controls {
-  margin-top: 100px; /* adds space below the logo */
+.greeting {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* space between inputs and buttons */
+  justify-content: center;
+  align-items: center;
+  text-align: right;
+  direction: rtl;
+  height: 420px; /* نختار أكبر قيمة */
+  border-radius: 12px;
+  background: linear-gradient(120deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+  overflow: hidden;
+}
+
+.greeting h1 {
+  font-size: 92px;
+  margin: 0 0 6px 0;
+  line-height: 1;
+  letter-spacing: 1px;
+  display: inline-block;
+  white-space: nowrap;
+  animation: slideRTL 15s linear infinite;
+}
+
+.greeting p {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  margin: 0;
+  font-size: 26px;
+  opacity: 0.9;
+}
+
+.controls {
+  margin-top: 100px; 
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
 }
 
 .buttons {
   display: flex;
-  gap: 16px; /* space between the buttons */
+  gap: 16px; 
   flex-wrap: wrap;
 }
 
 input[type=text], select {
-  padding: 16px 20px;
+  padding: 18px 22px; 
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.15);
   background: rgba(255,255,255,0.05);
   color: var(--text);
-  font-size: 18px;
+  font-size: 20px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -83,16 +115,14 @@ select {
   cursor: pointer;
 }
 
-
-
 button {
-  padding: 14px 20px;
+  padding: 16px 24px;
   border-radius: 12px;
   border: none;
   background: var(--accent);
   color: #022;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   transition: all 0.2s ease;
 }
@@ -108,9 +138,17 @@ button:hover {
   opacity: 0.7;
 }
 
+@keyframes slideRTL {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
 @media (min-width: 900px) {
   .logo { max-width: 180px; }
   .page-title { font-size: 42px; }
+  .greeting { height: 420px; }
+  .greeting h1 { font-size: 92px; }
+  .greeting p { font-size: 26px; }
   input[type=text], select { font-size: 20px; padding: 18px 22px; }
   button { font-size: 18px; padding: 16px 24px; }
 }
