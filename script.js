@@ -5,26 +5,26 @@ const defaultMsgs = {
   night: 'Good night 🌙'
 };
 
+// عناصر الـ DOM
 const greetingText = document.getElementById('greetingText');
 const timeText = document.getElementById('timeText');
 const input = document.getElementById('customMsg');
 const select = document.getElementById('periodSelect');
 const saveBtn = document.getElementById('saveBtn');
-const showBtn = document.getElementById('showBtn');
 const resetBtn = document.getElementById('resetBtn');
 
-// Load stored custom messages or default
+// Load stored or default
 function loadStored() {
   const stored = JSON.parse(localStorage.getItem('greet_custom') || '{}');
   return Object.assign({}, defaultMsgs, stored);
 }
 
-// Save custom messages to localStorage
+// Save
 function saveStored(obj) {
   localStorage.setItem('greet_custom', JSON.stringify(obj));
 }
 
-// Determine current time period
+// Current period
 function getCurrentPeriod() {
   const h = new Date().getHours();
   if (h >= 5 && h <= 11) return 'morning';
@@ -33,78 +33,59 @@ function getCurrentPeriod() {
   return 'night';
 }
 
-// Format time as HH:MM
+// Format time HH:MM
 function formatTime(date) {
-  const hh = String(date.getHours()).padStart(2, '0');
-  const mm = String(date.getMinutes()).padStart(2, '0');
-  return hh + ':' + mm;
+  return String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
 }
 
-// Render greeting on screen
+// Render greeting (Output page)
 function renderGreeting(forcePeriod) {
+  if (!greetingText || !timeText) return;
+
   const stored = loadStored();
-  let period;
-
-  if (forcePeriod === 'all') {
-    period = getCurrentPeriod(); // show current period message if "all"
-  } else {
-    period = forcePeriod || getCurrentPeriod();
-  }
-
+  let period = forcePeriod || getCurrentPeriod();
   const msg = stored[period] || defaultMsgs[period];
+
   greetingText.textContent = msg;
   timeText.textContent = 'Time: ' + formatTime(new Date());
 }
 
-// Save button click
-saveBtn.addEventListener('click', () => {
-  const txt = input.value.trim();
-  const p = select.value;
-  if (!txt) return; // ignore empty input
+// Input page events
+if (saveBtn && resetBtn && input && select) {
+  saveBtn.addEventListener('click', () => {
+    const txt = input.value.trim();
+    const p = select.value;
+    if (!txt) return;
 
-  const stored = JSON.parse(localStorage.getItem('greet_custom') || '{}');
-
-  if (p === 'all') {
-    stored.morning = txt;
-    stored.afternoon = txt;
-    stored.evening = txt;
-    stored.night = txt;
-  } else {
-    stored[p] = txt;
-  }
-
-  saveStored(stored);
-  input.value = '';
-
-  // Force update on screen
-  renderGreeting(p === 'all' ? 'all' : p);
-});
-
-// Show button click
-showBtn.addEventListener('click', () => {
-  const p = select.value;
-  renderGreeting(p === 'all' ? 'all' : p);
-});
-
-// Reset button click
-resetBtn.addEventListener('click', () => {
-  localStorage.removeItem('greet_custom');
-  renderGreeting();
-});
-
-// Initial render
-renderGreeting();
-
-// Auto-refresh every 20 seconds
-setInterval(renderGreeting, 20 * 1000);
-
-// Enter key behavior
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    if (document.activeElement === input) {
-      saveBtn.click();
+    const stored = JSON.parse(localStorage.getItem('greet_custom') || '{}');
+    if (p === 'all') {
+      stored.morning = txt;
+      stored.afternoon = txt;
+      stored.evening = txt;
+      stored.night = txt;
     } else {
-      showBtn.click();
+      stored[p] = txt;
     }
-  }
-});
+    saveStored(stored);
+    input.value = '';
+    alert('Saved successfully!');
+  });
+
+  resetBtn.addEventListener('click', () => {
+    localStorage.removeItem('greet_custom');
+    alert('All messages cleared!');
+  });
+
+  // Enter key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && document.activeElement === input) {
+      saveBtn.click();
+    }
+  });
+}
+
+// Auto render Output page
+if (greetingText && timeText) {
+  renderGreeting();
+  setInterval(renderGreeting, 20 * 1000);
+}

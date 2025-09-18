@@ -1,0 +1,88 @@
+:root {
+  --bg: #0f1724;
+  --card: #0b1220;
+  --accent: #7dd3fc;
+  --text: #e6eef6;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #061226 0%, #071428 60%);
+  color: var(--text);
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1280px;
+  padding: 28px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  max-width: 140px;
+  border-radius: 12px;
+}
+
+.card {
+  background: rgba(255,255,255,0.03);
+  padding: 28px;
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+}
+
+.greeting {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: right;
+  direction: rtl;
+  height: 360px;
+  border-radius: 12px;
+  background: linear-gradient(120deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+  overflow: hidden;
+}
+
+.greeting h1 {
+  font-size: 64px;
+  margin: 0 0 6px 0;
+  line-height: 1;
+  letter-spacing: 1px;
+  display: inline-block;
+  white-space: nowrap;
+  animation: slideRTL 15s linear infinite;
+}
+
+.greeting p {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  margin: 0;
+  font-size: 20px;
+  opacity: 0.9;
+}
+
+@media (min-width: 900px) {
+  .greeting { height: 420px; }
+  .greeting h1 { font-size: 92px; }
+  .greeting p { font-size: 26px; }
+  .logo { max-width: 180px; }
+}
+
+@keyframes slideRTL {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
